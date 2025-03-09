@@ -32,3 +32,11 @@ When I run `minikube start` I see:
 ```
   - docker: Not healthy: "docker version --format {{.Server.Os}}-{{.Server.Version}}:{{.Server.Platform.Name}}" exit status 1: permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get "http://%2Fvar%2Frun%2Fdocker.sock/v1.47/version": dial unix /var/run/docker.sock: connect: permission denied
 ```
+
+Turns out the docker daemon was running as root - which k8s was borking out about. So if we want Docker to run as non root that's a thing, fixing it I just changed ownership on the socket but not sure if that will persist through reboots.
+
+```
+chown root:docker /var/run/docker.sock
+```
+
+Now minikube is running successfully. Simple.
