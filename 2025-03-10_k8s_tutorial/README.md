@@ -19,5 +19,16 @@ In order to run Docker without forcing it to ignore warnings, I'm going to creat
 adduser minikube
 
 ## We also need to add minikube to Docker so it can use the driver.
-newgrp docker
+groupadd docker
 usermod -aG docker minikube
+
+## Running Minikube
+I'm still getting docker errors running Minikube. Something about docker not returning healthy.
+
+What is strange is that docker still appears to be working as I can run the hello world successfully.
+
+When I run `minikube start` I see:
+
+```
+  - docker: Not healthy: "docker version --format {{.Server.Os}}-{{.Server.Version}}:{{.Server.Platform.Name}}" exit status 1: permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get "http://%2Fvar%2Frun%2Fdocker.sock/v1.47/version": dial unix /var/run/docker.sock: connect: permission denied
+```
